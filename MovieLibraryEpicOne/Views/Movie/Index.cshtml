@@ -1,0 +1,109 @@
+﻿@model List<MovieLibraryEpicOne.Models.Movie>
+@using MovieLibraryEpicOne.Controllers;
+@{
+    ViewData["Title"] = "MovieController";
+}
+
+<h1>Movies</h1>
+<input type="text" id="name" placeholder="Movie name" style="margin-left: 20px">
+<input type="text" id="minIMDB" placeholder="Min IMDB you want" style="margin-left: 20px">
+<input type="text" id="maxIMDB" placeholder="Max IMDB you want" style="margin-left: 20px">
+<input type="text" id="minTomato" placeholder="Min tomatoness you want" style="margin-left: 20px">
+<input type="text" id="maxTomato" placeholder="Max tomatoness you want" style="margin-left: 20px">
+<select name="cars" id="genres">
+    <option value=""></option>
+    @{
+        var genres = Genre.GetGenres();
+        @foreach (var genre in genres)
+        {
+            <option value=@genre>@genre</option>
+        }
+    }
+</select>
+<button type="button" id="search">Search</button>
+<br />
+<br />
+<button type="button" id="return" style="display:none">Search</button>
+<script>
+    function returnPage()
+    {
+        console.log("just entered here")
+            alert("there is no movie with such parameter(s)")
+            window.location.replace(window.location.origin + window.location.pathname);
+        }
+</script>
+@{
+    <div class="row">
+        <script>
+            var count = @Model.Count;
+            console.log(count);
+            if(count == 0)
+            {
+                console.log("im hereeee")
+                returnPage();
+            }
+        </script>
+        @foreach (Movie movie in Model)
+        {
+            <div class="col-md-4" style="margin-bottom:10px;">
+                <div class="card">
+                    <img src="@movie.Poster" height="75%" width="75%" class="card-img-top">
+                    <div class="card-body">
+                        <h5 class="card-title">@movie.Name</h5>
+                        <a class="btn btn-primary" asp-area="" asp-controller="Movie" asp-action="View" asp-route-id="@movie.Id">More about</a>
+                    </div>
+                </div>
+            </div>
+            <br />
+            <br />
+        }
+    </div>
+}
+
+
+
+
+
+<script type="text/javascript">
+        document.getElementById('search').onclick = function ()
+        {
+            var name = document.getElementById('name').value;
+            var minIMDB = document.getElementById('minIMDB').value;
+            var maxIMDB = document.getElementById('maxIMDB').value;
+            var minTomato = document.getElementById('minTomato').value;
+            var maxTomato = document.getElementById('maxTomato').value;
+            var dropbox = document.getElementById("genres");
+            var genre = dropbox.options[dropbox.selectedIndex].text;
+
+            var routeAddition = '?';
+
+            if(name != '')
+            {
+                routeAddition +='name=' + name  + '&&';
+            }
+            if(minIMDB != '')
+            {
+                routeAddition += 'minIMDB=' + minIMDB + '&&';
+            }
+            if(maxIMDB != '')
+            {
+                routeAddition += 'maxIMDB=' + maxIMDB  + '&&';
+            }
+            if(minTomato != '')
+            {
+                routeAddition += 'minTomato=' + minTomato + '&&';
+            }
+            if(maxTomato != '')
+            {
+                routeAddition += 'maxTomato='  + maxTomato + '&&';
+            }
+            if(genre != '')
+            {
+                routeAddition += 'genre=' + genre + '&&';
+            }
+            var route = window.location.origin + window.location.pathname;
+            var newRoute = route + routeAddition;
+            window.location.replace(newRoute);
+        }
+</script>
+

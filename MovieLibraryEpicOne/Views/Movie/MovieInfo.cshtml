@@ -1,0 +1,42 @@
+﻿@model MovieLibraryEpicOne.Models.Movie;
+@using MovieLibraryEpicOne.Controllers;
+@using MovieLibraryEpicOne.Models;
+@{
+    ViewData["Title"] = "View";
+}
+@{
+    <h4>Name:  @Model.Name</h4>
+        <br />
+        <h4>IMDB:  @Model.IMDB</h4>
+        <br />
+        <h4>Tomato level:  @Model.RottenTomatoes</h4>
+        <br />
+    <img src="@Model.Poster" style="width:25%; height:25%; float:left">
+    <h3 style="margin-left:25px">Lead director</h3>
+    <row>
+        <div class="card" style="width:25%; height:25%; float:left; margin-left:25px;">
+            <img src="@Model.LeadDirector.Portrait" height="25%" width="25%" class="card-img-top">
+            <div class="card-body">
+                <h5 class="card-title">@Model.LeadDirector.Name</h5>
+                <a class="btn btn-primary" asp-area="" asp-controller="Director" asp-action="View" asp-route-id="@Model.LeadDirector.Id">More about</a>
+            </div>
+        </div>
+    </row>
+    <div class="row">
+    <h3>Actors</h3>
+        @foreach (Actor actor in Model.Actors)
+        {
+            <div class="col-md-4" style="margin-bottom:10px;">
+                <div class="card">
+                    <img src="@actor.Portrait" height="75%" width="75%" class="card-img-top">
+                    <div class="card-body">
+                        <h5 class="card-title">@actor.Name</h5>
+                        <a class="btn btn-primary" asp-area="" asp-controller="Actor" asp-action="View" asp-route-id="@actor.Id">More about</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}
+
+
